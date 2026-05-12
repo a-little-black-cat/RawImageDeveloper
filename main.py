@@ -15,14 +15,32 @@ def upload_photo():
         image_array.append(i)
         print("file added to image_array: ", i)
 
+    get_metadata(image_array)
 
-    print("Selected Files: ", filenames)
 
 def get_metadata(image_array):
-    for i in image_array:
-        images = Image.open(image_array[i])
+    ## print(image_array)
 
-# Everything in terms of managing window below here vvvv
+    for file in image_array:
+        print("Image in process: ", file)
+        image = Image.open(str(file))
+        ## image.show()
+
+
+        exifData = image.getexif()
+
+        print("exifData: ", str(exifData))
+        print("\n ======================================= \n")
+
+        for tagid in exifData:
+            # get tag name
+            tagname = TAGS.get(tagid, tagid)
+
+            value = exifData.get(tagid)
+
+            print(f"{tagname:25}: {value}")
+
+
 
 
 # Press the green button in the gutter to run the script.
@@ -30,6 +48,7 @@ if __name__ == "__main__":
 
     root = tk.Tk()
     image_array = []
+    image_metadata_table = []
 
     root.title("Raw Photo Developer - @a-little-black-cat")
 
